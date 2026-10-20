@@ -9,6 +9,31 @@ import torch
 from torch.utils.data import DataLoader
 from torchvision.datasets import CIFAR10, ImageFolder
 from .transforms import get_train_transforms, get_test_transforms
+from PIL import Image
+from torch.utils.data import Dataset
+
+class TinyImageNetVal(Dataset):
+    """Real Tiny ImageNet-200 validation split (10,000 images), labelled from val_annotations.txt."""
+    def __init__(self, tiny_dir, class_to_idx, transform=None):
+        self.img_dir = os.path.join(tiny_dir, "val", "images")
+        self.transform = transform
+        self.samples = []
+        with open(os.path.join(tiny_dir, "val", "val_annotations.txt")) as f:
+            for line in f:
+                parts = line.strip().split("\t")
+                if len(parts) >= 2:
+                    self.samples.append((parts[0], class_to_idx[parts[1]]))
+        self.targets = [t for _, t in self.samples]
+
+    def __len__(self):
+        return len(self.samples)
+
+    def __getitem__(self, i):
+        name, target = self.samples[i]
+        img = Image.open(os.path.join(self.img_dir, name)).convert("RGB")
+        if self.transform:
+            img = self.transform(img)
+        return img, target
 
 CIFAR10_CLASSES = [
     'airplane', 'automobile', 'bird', 'cat', 'deer',
@@ -64,7 +89,7 @@ def get_dataloaders(
         val_tf   = get_test_transforms("tiny_imagenet", target_size=target_size)
 
         train_set = ImageFolder(root=train_dir, transform=train_tf)
-        val_set   = ImageFolder(root=train_dir, transform=val_tf)
+        val_set   = TinyImageNetVal(tiny_dir, train_set.class_to_idx, transform=val_tf)
         num_classes = 200
         classes = train_set.classes
 

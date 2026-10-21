@@ -1,0 +1,44 @@
+========================================================================================
+ELEC 475: Lab 2 Training Engine
+Device        : mps (MPS)
+Model         : ALEXNET (Norm: BN)
+Dataset       : CIFAR10 (Augmentation: False)
+Hyperparams   : Epochs=10, BatchSize=128, LR=0.001, Seed=2026
+Early Stopping: Disabled
+========================================================================================
+
+Initializing DataLoaders...
+Train batches: 390 (50000 samples), Val batches: 79, Classes: 10
+============================================================
+Computational Complexity Profile: ALEXNET (bn)
+Input Tensor Shape   : (1, 3, 64, 64)
+------------------------------------------------------------
+Total Parameters     : 6,611,402 (6.6114 M)
+Trainable Parameters : 6,611,402
+Multiply-Accumulates : 218,983,168 (218.98 MMACs)
+Floating Point Ops   : 437,966,336 (437.97 MFLOPs)
+Weight Size (FP32)   : 25.22 MB
+============================================================
+
+Detailed Layer Specification:
+(Layer summary skipped on mps: RuntimeError)
+
+==============================================================================================
+ Epoch  | Train Loss  | Train Acc (%)  |  Val Loss  | Val Acc (%)  | Val F1 (%)  | Time (s)  | Throughput
+----------------------------------------------------------------------------------------------
+   1    |   1.5036    |     44.10      |   1.2576   |    54.82     |    52.22    |   65.17   |  767.2   s/s
+   2    |   1.1079    |     60.61      |   1.1071   |    61.90     |    60.58    |   65.12   |  767.8   s/s
+   3    |   0.9344    |     67.68      |   0.8370   |    70.57     |    70.56    |   65.10   |  768.0   s/s
+   4    |   0.8129    |     72.43      |   0.9097   |    69.49     |    69.72    |   65.40   |  764.5   s/s
+   5    |   0.7231    |     75.54      |   0.7810   |    73.50     |    73.41    |   65.28   |  765.9   s/s
+   6    |   0.6488    |     78.12      |   0.7201   |    75.96     |    75.79    |   65.25   |  766.3   s/s
+   7    |   0.5884    |     80.33      |   0.9743   |    68.01     |    68.15    |   65.13   |  767.7   s/s
+   8    |   0.5441    |     81.77      |   0.7417   |    75.79     |    75.78    |   65.17   |  767.2   s/s
+   9    |   0.4901    |     83.55      |   0.8188   |    73.32     |    73.33    |   65.58   |  762.4   s/s
+  10    |   0.4532    |     84.74      |   0.7517   |    75.73     |    75.49    |   65.37   |  764.9   s/s
+==============================================================================================
+Training completed in 653.12s.
+Best Val Accuracy: 75.96% | Best Val Macro F1: 75.79%
+Model Complexity : 6.611M Parameters | 437.97M FLOPs
+Best model weights saved to: checkpoints/alexnet_bn_s2026.pth
+Training curves successfully saved to: plots/loss_alexnet_bn_s2026.png
